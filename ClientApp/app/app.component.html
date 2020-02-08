@@ -1,6 +1,7 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-<app-message></app-message>
+<ngx-loading [show] = "loading" [config]=""></ngx-loading>
+<div class="alert-wrapper">
+    <alert *ngFor="let alert of alerts" [type]="alert.type" dismissOnTimeout="5000" class="text-center">
+        {{alert.text}}
+    </alert>
+</div>
+<router-outlet></router-outlet>
