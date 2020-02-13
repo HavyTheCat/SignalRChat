@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using SignalRChat.Data.Entities;
 
@@ -31,7 +32,11 @@ namespace SignalRChat.Data
         }
 
         public DbSet<AppUser> AppUsers { get; set; }
+
+        public DbSet<ChatRooms> ChatRooms { get; set; }
         public DbSet<Message> Messages { get; set; }
+
+
     }
 
     public class SignalRChatContextDbFactory : IDesignTimeDbContextFactory<SignalRChatContext>
@@ -44,8 +49,9 @@ namespace SignalRChat.Data
         SignalRChatContext IDesignTimeDbContextFactory<SignalRChatContext>.CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<SignalRChatContext>();
+
             
-            optionsBuilder.UseSqlServer<SignalRChatContext>("Server=(localdb)\\mssqllocaldb;Database=helloappdb;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer<SignalRChatContext>("Server=(localdb)\\mssqllocaldb;Database=SignalrChat;Trusted_Connection=True;");
 
             return new SignalRChatContext(optionsBuilder.Options);
         }

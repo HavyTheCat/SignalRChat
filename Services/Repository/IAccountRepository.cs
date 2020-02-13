@@ -12,7 +12,7 @@ namespace SignalRChat.Services.Repository
     public interface IAccountRepository
     {
 
-        Task<LoginResult> LocalLogin(string email, string password, bool remember);
+        Task<UserStateResponse> LocalLogin(string email, string password, bool remember);
         Task Logout();
 
         Task<AppUser> GetUser(string id);
@@ -20,6 +20,8 @@ namespace SignalRChat.Services.Repository
         Task<List<AppUser>> GetUsers();
 
         Microsoft.AspNetCore.Authentication.AuthenticationProperties ConfigureExternalAuthenticationProperties(string provider, string redirectUrl);
-        Task<LoginResult> PerfromExternalLogin();
+        Task<UserStateResponse> PerfromExternalLogin();
+
+        Task<UserStateResponse> CreateNewUser(AppUser newUser, string password);
     }
 }

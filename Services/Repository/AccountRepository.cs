@@ -13,23 +13,27 @@ using SignalRChat.Data;
 using SignalRChat.Data.Entities;
 using SignalRChat.Data.DTO;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace SignalRChat.Services.Repository
 {
     public class AccountRepository : IAccountRepository
     {
         private SignalRChatContext _context;
+        private IMapper _mapper;
         private UserManager<AppUser> user_manager;
         private SignInManager<AppUser> signin_manager;
         private readonly IConfiguration _config;
         //       private JwtIssuerOptions jwtIssuerOptions;
 
         public AccountRepository(
+            IMapper mapper,
             IConfiguration configuration,
             UserManager<AppUser> user_manager,
             SignInManager<AppUser> signin_manager,
             SignalRChatContext context)
         {
+            _mapper = mapper;
             this.user_manager = user_manager;
             this.signin_manager = signin_manager;
             this._context = context;
@@ -38,28 +42,32 @@ namespace SignalRChat.Services.Repository
         }
 
 
-    public async Task<LoginResult> LocalLogin(string email, string password, bool remember)
+    public async Task<UserStateResponse> LocalLogin(string email, string password, bool remember)
         {
             var user = await user_manager.FindByEmailAsync(email);
-            var result = await signin_manager.PasswordSignInAsync(user, password, remember, false);
+
+            var result = await signin_manager.CheckPasswordSignInAsync(user, password, false);
             if (result.Succeeded)
             {
-                return new LoginResult
+                await signin_manager.SignInAsync(user, true);
+                var token_handler = new JwtSecurityTokenHandler();
+                var token = CreateToken(email);
+                return new UserStateResponse
                 {
-                    Status = true,
-                    Platform = "local",
-                    User = user.Id,
-                    Token = CreateToken(email)
+                    success = true,
+                    platform = "local",
+                    user = _mapper.Map<UserDTO>(user),
+                    token = token_handler.WriteToken(token),
+                    tokenExpiration = token.ValidTo
                 };
             }
             else
             {
-                return new LoginResult
+                return new UserStateResponse
                 {
-                    Status = false,
-                    Platform = "local",
-                    Error = "Login attempt failed",
-                    ErrorDescription = "Username or password incorrect"
+                    success = false,
+                    platform = "local",
+                    message = "Login attempt failed"                    
                 };
             }
         }
@@ -69,7 +77,7 @@ namespace SignalRChat.Services.Repository
             await signin_manager.SignOutAsync();
         }
 
-        private string CreateToken(string email)
+        private SecurityToken CreateToken(string email)
         {
             var key = new SymmetricSecurityKey
                            (Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
@@ -90,10 +98,10 @@ namespace SignalRChat.Services.Repository
         };
             var token_handler = new JwtSecurityTokenHandler();
             var token = token_handler.CreateToken(token_descriptor);
-            var str_token = token_handler.WriteToken(token);
-            return str_token;
+            //var str_token = token_handler.WriteToken(token);
+            return token;
         }
-        private string CreateToken(ExternalLoginInfo info)
+        private SecurityToken CreateToken(ExternalLoginInfo info)
         {
             var identity = (ClaimsIdentity)info.Principal.Identity;
             var key = new SymmetricSecurityKey
@@ -112,8 +120,8 @@ namespace SignalRChat.Services.Repository
             };
             var token_handler = new JwtSecurityTokenHandler();
             var token = token_handler.CreateToken(token_descriptor);
-            var str_token = token_handler.WriteToken(token);
-            return str_token;
+            //var str_token = token_handler.WriteToken(token);
+            return token;
         }
 
         public Microsoft.AspNetCore.Authentication.AuthenticationProperties ConfigureExternalAuthenticationProperties(string provider, string redirectUrl)
@@ -122,7 +130,34 @@ namespace SignalRChat.Services.Repository
             return properties;
         }
 
-        public async Task<LoginResult> PerfromExternalLogin()
+        public async Task<UserStateResponse> CreateNewUser(AppUser newUser, string password)
+        {
+            var res = await user_manager.CreateAsync(newUser, password);
+            if (res.Succeeded)
+            {
+                var token_handler = new JwtSecurityTokenHandler();
+                var token = CreateToken(newUser.Email);
+                return new UserStateResponse
+                {
+                    success = true,
+                    platform = "local",
+                    user = _mapper.Map<UserDTO>(newUser),
+                    token = token_handler.WriteToken(token),
+                    tokenExpiration = token.ValidTo
+                };
+            }
+            else
+            {
+                return new UserStateResponse
+                {
+                    success = false,
+                    platform = "local",
+                    message = string.Join(Environment.NewLine, res.Errors.Select(e => e.Description).ToList())
+                };
+            }
+        }
+
+        public async Task<UserStateResponse> PerfromExternalLogin()
         {
             var info = await signin_manager.GetExternalLoginInfoAsync();
             if (info == null)
@@ -168,12 +203,15 @@ namespace SignalRChat.Services.Repository
             var result = await signin_manager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
             {
-                return new LoginResult
+                var token = CreateToken(info);
+                var token_handler = new JwtSecurityTokenHandler();
+                return new UserStateResponse
                 {
-                    Status = true,
-                    Platform = info.LoginProvider,
-                    User = user.Id,
-                    Token = CreateToken(info)
+                    success = true,
+                    platform = info.LoginProvider,
+                    user = _mapper.Map<UserDTO>(user),
+                    token = token_handler.WriteToken(token),
+                    tokenExpiration = token.ValidTo
                 };
             }
             else if (result.IsLockedOut)

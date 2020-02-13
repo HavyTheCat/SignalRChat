@@ -6,15 +6,11 @@ using System.Threading.Tasks;
 
 namespace SignalRChat.Data.DTO
 {
-    public class LoginResult
+    public class TokenMessageVM
     {
-        public bool Status { get; set; }
         public string Platform { get; set; }
-        public string User { get; set; }
-
         public string Error { get; set; }
         public string ErrorDescription { get; set; }
-
-        public string Token { get; set; }
+        public string AccessToken { get; set; }
     }
 }

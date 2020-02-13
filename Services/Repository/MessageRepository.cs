@@ -17,6 +17,12 @@ namespace SignalRChat.Services.Repository
             _context = context;
         }
 
+        public async Task<bool> Add(Message msg)
+        {
+            await _context.Messages.AddAsync(msg);
+            return await SaveAsync();
+        }
+
         public async Task<Message> GetMessageAsync(Guid equipmentId)
         {
             return await _context.Messages
@@ -30,6 +36,15 @@ namespace SignalRChat.Services.Repository
                 .ToListAsync<Message>();
         }
 
+        public async Task<IList<Message>> GetRoomMessages(Guid roomId)
+        {
+            return await _context.Messages.Where(m => m.ChatRoom.Id == roomId)
+                .Include(m => m.sender)
+                .ToListAsync();
+        }
+
+        
+
         public async Task<bool> UpdateMessage(Message message)
         {
             if (_context.Messages.Any(m => m.Id == message.Id))
@@ -40,6 +55,11 @@ namespace SignalRChat.Services.Repository
             return (await _context.SaveChangesAsync() >= 0);
 
 
+        }
+
+        public async Task<bool> SaveAsync()
+        {
+            return (await _context.SaveChangesAsync() >= 0);
         }
     }
 }

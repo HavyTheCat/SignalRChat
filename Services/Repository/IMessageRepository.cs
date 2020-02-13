@@ -14,5 +14,9 @@ namespace SignalRChat.Services.Repository
         Task<Message> GetMessageAsync(Guid equipmentId);
 
         Task<bool> UpdateMessage(Message equipment);
+
+        Task<IList<Message>> GetRoomMessages(Guid roomId);
+
+        Task<bool> Add(Message msg);
     }
 }

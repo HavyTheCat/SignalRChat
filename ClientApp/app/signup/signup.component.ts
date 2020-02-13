@@ -35,21 +35,20 @@ public signupForm: FormGroup;
   private CreateForm(): void {
     this.signupForm = this.fb.group({
       firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
+      nicname: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
   public submit(): void {
     if (this.signupForm.valid) {
-          const {firstName, lastName, email, password} = this.signupForm.value;
-          console.log(`firstName:${firstName} lastName${lastName} Email: ${email}, pass:${password} `);
-          this.subscriptions.push(this.auth.signup(firstName, lastName, email, password).subscribe(success => {
+          const {firstName, nicname, email, password} = this.signupForm.value;
+
+          this.subscriptions.push(this.auth.signup(firstName, nicname, email, password).subscribe(success => {
             if (success) {
                     this.router.navigate(['/chat']);
-            } else {
-              this.loadingService.isLoading.next(false);
             }
+            this.loadingService.isLoading.next(false);
           })
           );
         } else {

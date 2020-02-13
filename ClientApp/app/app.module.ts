@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,6 +27,10 @@ import { from } from 'rxjs';
 import { AlertService } from './Shared/Services/alert.service';
 import { LoadingService } from './Shared/Services/loading.service';
 import { AuthGuard } from './guards/auth.guard';
+import { HttpErrorInterceptor } from './interceptor';
+import { ChatRoomService } from './Shared/Services/chatroom-service';
+import { RoomInputComponent } from './chat/components/room-input/room-input.component';
+
 
 
 
@@ -42,7 +46,8 @@ import { AuthGuard } from './guards/auth.guard';
     ChatroomListComponent,
     ChatroomTitleBarComponent,
     ChatMessageComponent,
-    ChatroomWindowComponent
+    ChatroomWindowComponent,
+    RoomInputComponent
   ],
   imports: [
     FormsModule,
@@ -59,7 +64,14 @@ import { AuthGuard } from './guards/auth.guard';
     AuthService,
     AlertService,
     LoadingService,
-    AuthGuard
+    AuthGuard, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    },
+    ChatRoomService
+
+
   ],
   bootstrap: [AppComponent]
 })
