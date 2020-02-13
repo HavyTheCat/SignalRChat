@@ -1,0 +1,17 @@
+/node_modules
+/obj
+/bin
+/.vscode
+/wwwroot
+/appsettings.json
+/package-lock.json
+/.vs/SignalRChat/DesignTimeBuild/.dtbcache
+/.vs/SignalRChat/DesignTimeBuild/.dtbcache.v2
+/.vs/SignalRChat/config/applicationhost.config
+/.vs/SignalRChat/v16/.suo
+/.vs/SignalRChat/v16/Server/sqlite3/db.lock
+/.vs/SignalRChat/v16/Server/sqlite3/storage.ide
+/ClientApp/.vscode/settings.json
+/Migrations/20200213170847_migra3.Designer.cs
+/Migrations/20200213170847_migra3.cs
+/Migrations/SignalRChatContextModelSnapshot.cs
