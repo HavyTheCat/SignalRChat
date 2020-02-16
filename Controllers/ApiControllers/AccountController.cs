@@ -133,14 +133,6 @@ namespace SignalRChat.Controllers.ApiControllers
             return Challenge(properties, provider);
         }
 
-        [AllowAnonymous]
-        [HttpGet("status")]
-        public async Task<bool> isUserAuthenticated()
-        {
-            AppUser usr = await GetCurrentUserAsync();
-            return !string.IsNullOrEmpty(usr?.Id);
-        }
-
         [HttpPost("signup")]
         public async Task<UserStateResponse> SignUp([FromBody] SignUpVM vm)
         {
@@ -148,7 +140,18 @@ namespace SignalRChat.Controllers.ApiControllers
             
         }
 
-        private Task<AppUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
+
+        [HttpGet("currentuser")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<UserDTO> GetCurrentUserAsync()
+        {
+            return _mapper.Map<UserDTO>(await _userManager.FindByEmailAsync(HttpContext.User.Identity.Name));
+        }
+
+        [HttpGet("user/{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<UserDTO> GetCurrentUserAsync(string id) => _mapper.Map<UserDTO>(await _accountRepository.GetUser(id));
 
         [HttpGet("connect/{provider}/callback")]
         public async Task<ActionResult> ExternalLoginCallback([FromRoute]string provider)

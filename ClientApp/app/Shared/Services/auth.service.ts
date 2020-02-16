@@ -97,14 +97,12 @@ public getToken(): string {
 
 }
 
-public getUser(): User {
-  if (localStorage.getItem('userState') === null) {
-    return null;
-  } else {
-    const state: UserStateResponse = JSON.parse(localStorage.getItem('userState'));
-    return state.user;
-  }
+public getCurrentUser(): Observable<User> {
+  return this.httpClient.get<User>(`/api/account/currentuser`);
+}
 
+public getUser(id: string): Observable<User> {
+  return this.httpClient.get<User>(`/api/account/user/${id}`);
 }
 
 
@@ -122,9 +120,5 @@ public logout(): void {
 
 public loginProviders() {
     return this.httpClient.get<string[]>(`/api/account/providers`);
-}
-
-public GetcurrentUser(): Observable<User> {
-    return this.httpClient.get<User>(`/api/account/current-user`);
 }
 }

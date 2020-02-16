@@ -19,9 +19,12 @@ namespace SignalRChat
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.NicName)).ReverseMap();
 
             CreateMap<AppUser, UserDTO>()
+                .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.firstName, opt => opt.MapFrom(src => src.FirstName))
                 .ForMember(dest => dest.nicname, opt => opt.MapFrom(src => src.UserName))
-                .ForMember(dest => dest.photoUrl, opt => opt.MapFrom(src => src.PhotoUrl)).ReverseMap();
+                .ForMember(dest => dest.photoUrl, opt => opt.MapFrom(src => src.PhotoUrl))
+                .ForMember(dest => dest.quote, opt => opt.MapFrom(src => src.Quote))
+                .ForMember(dest => dest.bio, opt => opt.MapFrom(src => src.Bio)).ReverseMap();
 
             CreateMap<Message, MessageVM>()
                 .ForMember(dest => dest.createAt, opt => opt.MapFrom(src => src.Date))

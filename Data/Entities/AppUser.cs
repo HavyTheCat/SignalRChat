@@ -11,7 +11,8 @@ namespace SignalRChat.Data.Entities
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
+        public string Bio { get; set; }
+        public string Quote { get; set; }
         public string PhotoUrl { get; set; }
     }
 }

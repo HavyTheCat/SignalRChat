@@ -30,6 +30,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { HttpErrorInterceptor } from './interceptor';
 import { ChatRoomService } from './Shared/Services/chatroom-service';
 import { RoomInputComponent } from './chat/components/room-input/room-input.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 
@@ -47,7 +48,8 @@ import { RoomInputComponent } from './chat/components/room-input/room-input.comp
     ChatroomTitleBarComponent,
     ChatMessageComponent,
     ChatroomWindowComponent,
-    RoomInputComponent
+    RoomInputComponent,
+    ProfileComponent
   ],
   imports: [
     FormsModule,
