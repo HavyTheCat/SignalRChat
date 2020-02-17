@@ -5,6 +5,17 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+RUN apt-get install --yes curl
+RUN curl --silent --location https://deb.nodesource.com/setup_10.x | bash -
+RUN apt-get install --yes nodejs
+
+COPY ["package.json", ""]
+COPY ["package-lock.json", ""]
+WORKDIR /src/
+RUN npm install
+RUN npm install -g @angular/cli@7.3.9
+ng build
+
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["SignalRChat.csproj", ""]
