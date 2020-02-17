@@ -11,7 +11,7 @@ namespace SignalRChat.Data
 {
     public class SignalRChatContext : IdentityDbContext<AppUser>
     {
-        private readonly IConfiguration _config;
+  
         public SignalRChatContext(DbContextOptions<SignalRChatContext> options)
             : base(options)
         {
@@ -38,23 +38,4 @@ namespace SignalRChat.Data
 
 
     }
-
-    public class SignalRChatContextDbFactory : IDesignTimeDbContextFactory<SignalRChatContext>
-    {
-
-        public SignalRChatContextDbFactory()
-        {
-
-        }
-        SignalRChatContext IDesignTimeDbContextFactory<SignalRChatContext>.CreateDbContext(string[] args)
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<SignalRChatContext>();
-
-            
-            optionsBuilder.UseSqlServer<SignalRChatContext>("Server=(localdb)\\mssqllocaldb;Database=SignalrChat;Trusted_Connection=True;");
-
-            return new SignalRChatContext(optionsBuilder.Options);
-        }
-    }
-
 }

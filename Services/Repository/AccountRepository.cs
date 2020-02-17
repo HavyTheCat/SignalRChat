@@ -77,7 +77,7 @@ namespace SignalRChat.Services.Repository
             await signin_manager.SignOutAsync();
         }
 
-        private SecurityToken CreateToken(string email)
+        public SecurityToken CreateToken(string email)
         {
             var key = new SymmetricSecurityKey
                            (Encoding.UTF8.GetBytes(_config["Tokens:Key"]));

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingService } from '../Shared/Services/loading.service';
 import { AuthService } from '../Shared/Services/auth.service';
 import { User } from '../../classes/User';
@@ -20,12 +20,13 @@ export class EditProfileComponent implements OnInit, OnDestroy {
               private loading: LoadingService,
               private route: ActivatedRoute,
               private location: Location,
-              private uploadserv: UpLoadingService
+              private uploadserv: UpLoadingService,
+              private router: Router
               ) {
                 this.loading.isLoading.next(true);
                }
 
-  private currentUser: User;
+  currentUser: User;
   private userId: string;
   private subs: Subscription[] = [];
   public uploadPercent: number = 0;
@@ -61,6 +62,14 @@ export class EditProfileComponent implements OnInit, OnDestroy {
         this.auth.getCurrentUser();
       }
       this.uploadPercent = perc;
+    }));
+  }
+
+  public save(): void {
+    this.currentUser.photoUrl = this.downloadUrl;
+    this.subs.push(this.auth.updateProfile(this.currentUser).subscribe(success => {
+      if (success) {
+              this.router.navigate(['/chat']); }
     }));
   }
 

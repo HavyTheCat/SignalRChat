@@ -1,4 +1,5 @@
-﻿using SignalRChat.Data.DTO;
+﻿using Microsoft.IdentityModel.Tokens;
+using SignalRChat.Data.DTO;
 using SignalRChat.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -23,5 +24,7 @@ namespace SignalRChat.Services.Repository
         Task<UserStateResponse> PerfromExternalLogin();
 
         Task<UserStateResponse> CreateNewUser(AppUser newUser, string password);
+
+        SecurityToken CreateToken(string email);
     }
 }

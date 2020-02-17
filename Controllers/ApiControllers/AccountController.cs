@@ -149,6 +149,44 @@ namespace SignalRChat.Controllers.ApiControllers
             return _mapper.Map<UserDTO>(await _userManager.FindByEmailAsync(HttpContext.User.Identity.Name));
         }
 
+        [HttpPost("updateProfile")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<UserStateResponse> UpdateProfile([FromBody] UserDTO user)
+        {
+            var curUser = await _userManager.FindByEmailAsync(HttpContext.User.Identity.Name);
+            curUser.Bio = user.bio;
+            curUser.FirstName = user.firstName;
+            curUser.Quote = user.quote;
+            curUser.PhotoUrl = string.IsNullOrEmpty(user.photoUrl) ? curUser.PhotoUrl : user.photoUrl;
+            var res =  await _userManager.UpdateAsync(curUser);
+
+            if (res.Succeeded)
+            {
+                var token_handler = new JwtSecurityTokenHandler();
+                var token = _accountRepository.CreateToken(curUser.Email);
+                return new UserStateResponse
+                {
+                    success = true,
+                    platform = "local",
+                    user = _mapper.Map<UserDTO>(curUser),
+                    token = token_handler.WriteToken(token),
+                    tokenExpiration = token.ValidTo
+                };
+            }
+            else
+            {
+                return new UserStateResponse
+                {
+                    success = false,
+                    platform = "local",
+                    message = string.Join(Environment.NewLine, res.Errors.Select(e => e.Description).ToList())
+                };
+            }
+        }
+
+
+
+
         [HttpGet("user/{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<UserDTO> GetCurrentUserAsync(string id) => _mapper.Map<UserDTO>(await _accountRepository.GetUser(id));

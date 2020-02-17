@@ -10,7 +10,7 @@ import { Room } from '../../../../classes/room';
 })
 export class ChatroomListComponent implements OnInit {
 
-  private rooms: Array<Room> = [];
+ rooms: Array<Room> = [];
 
   constructor(
     public chatroomserv: ChatRoomService

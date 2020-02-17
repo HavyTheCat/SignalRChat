@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
-import {map} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 
 import { User } from '../../../classes/User';
 import { AlertService } from './alert.service';
@@ -30,6 +30,9 @@ export class AuthService {
   ) { }
 
   isLoggedIn(): Observable<boolean> {
+    if(this.isExpirationDateValid) {
+      this.isLoginSubject.next(true);
+    }
     return this.isLoginSubject.asObservable();
   }
 
@@ -80,8 +83,36 @@ public signup(firstName: string, lastName: string, email: string, password: stri
         }
       }));
     }
+
+    public updateProfile(user: User): Observable<boolean> {
+      return this.httpClient.post<UserStateResponse>(`/api/account/updateProfile`, user)
+      .pipe(map(resp => {
+        if (resp.success) {
+          this.currentUserSubject.next(resp.user);
+          this.SetUserStateResponse(resp);
+          return true;
+        } else {
+          this.alertService.alerts.next(new Alert(resp.message, AlertType.Danger));
+          return false;
+        }
+      }));
+    }
+
 private SetUserStateResponse(resp: UserStateResponse): void {
   localStorage.setItem('userState', JSON.stringify(resp));
+}
+
+private isExpirationDateValid(): boolean {
+  if (localStorage.getItem('userState') === null) {
+    return false;
+  } else {
+    const state: UserStateResponse = JSON.parse(localStorage.getItem('userState'));
+    if (new Date(state.tokenExpiration) > new Date) {
+      return true
+    } else {
+      return false;
+    }
+  }
 }
 
 public getToken(): string {
@@ -99,8 +130,15 @@ public getToken(): string {
 }
 
 public getCurrentUser(): Observable<User> {
-  return this.httpClient.get<User>(`/api/account/currentuser`);
-}
+  return this.isLoginSubject.pipe(switchMap((islogin)=>{
+    if (islogin || this.isExpirationDateValid()) {
+      return this.httpClient.get<User>(`/api/account/currentuser`);
+    } else {
+      return of(null);
+        }
+    }))
+  }
+
 
 public getUser(id: string): Observable<User> {
   return this.httpClient.get<User>(`/api/account/user/${id}`);

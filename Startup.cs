@@ -115,8 +115,8 @@ namespace SignalRChat
 
 
           //  services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
-            var connectionString = _config["connectionStrings:DefaultConnection"];
-            services.AddDbContext<SignalRChatContext>(o => o.UseSqlServer(connectionString));
+            var connectionString = _config["connectionStrings:SqliteDBConnectionString"];
+            services.AddDbContext<SignalRChatContext>(o => o.UseSqlite(connectionString));
             services.AddTransient<Seeder>();
 
             services.AddScoped<IAccountRepository, AccountRepository>();
@@ -160,13 +160,17 @@ namespace SignalRChat
             app.UseMiddleware<WebSocketsMiddleware>();
             app.UseMvc(cfg =>
             {
-                cfg.MapRoute("Default",
-                    "{controller}/{action}/{id?}",
-                    new { Controller = "App", Action = "index" });
+                cfg.MapRoute(name:"Default",
+                    template:"{controller=App}/{action=Index}/{id?}");
+
             });
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(name: "Default",
+                    pattern: "{controller=App}/{action=Index}/{id?}");
+                endpoints.MapFallbackToController("Index", "App");
+
                 endpoints.MapHub<RoomsHub>("/RoomHub");
             });
 

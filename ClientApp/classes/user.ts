@@ -1,4 +1,5 @@
 export class User {
+    id: string;
     firstName: string;
     nicname: string;
     photoUrl: string;

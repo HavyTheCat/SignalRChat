@@ -32,6 +32,7 @@ import { ChatRoomService } from './Shared/Services/chatroom-service';
 import { RoomInputComponent } from './chat/components/room-input/room-input.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { IsOwnerGuard } from './guards/is-owner.guard';
 
 
 
@@ -68,7 +69,9 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     AuthService,
     AlertService,
     LoadingService,
-    AuthGuard, {
+    AuthGuard,
+    IsOwnerGuard,
+     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
       multi: true

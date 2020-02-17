@@ -1,11 +1,11 @@
 <div class="chat-message d-flex">
-  <img [src]="message.sender.photoUrl" class="rounded-circle">
+  <div class="image-wrapper" [routerLink]="'/profile/' + message.sender.id">
+    <img [src]="message.sender.photoUrl" class="rounded-circle">
+  </div>
   <div class="bubble d-flex flex-column">
-    <div class="name">
-
-      {{message.sender.firstName}} {{message.sender.lastName}}
+    <div class="d-flex align-items-baseline">
+     <span class="name"> <a [routerLink]="'/profile/' + message.sender.id">{{message.sender.firstName}} {{message.sender.nicname}}</a></span><span class="timestamp">{{message.createAt | date:'medium'}}</span>
     </div>
-    <small class="timestamp">{{message.createAt | date:'medium'}}</small>
     <div class="message">
       {{message.message}}
     </div>

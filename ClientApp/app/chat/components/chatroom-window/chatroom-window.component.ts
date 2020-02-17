@@ -30,7 +30,9 @@ export class ChatroomWindowComponent implements OnInit, OnDestroy, AfterViewChec
                 this.subs.push(
                   this.chatRoomserv.selectedMessages.subscribe(
                     chatRoom => {
-                      this.messages = chatRoom;
+                      if(chatRoom) {
+                        this.messages = chatRoom;
+                      }
                       this.sortArr();
                     }));
                 this.subs.push(

@@ -20,8 +20,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.loading.isLoading.next(true);
    }
 
-  private currentUser: User;
-  private user: User;
+  currentUser: User;
+  user: User;
   private subs: Subscription[] = [];
 
   ngOnInit() {
