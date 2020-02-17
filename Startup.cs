@@ -44,6 +44,7 @@ namespace SignalRChat
 
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
+            services.AddHttpContextAccessor();
 
             services.AddIdentity<AppUser, IdentityRole>(cfg =>
             {
@@ -152,7 +153,7 @@ namespace SignalRChat
 
             app.UseSignalR(options =>
             {
-                options.MapHub<MessageHub>("/MessageHub");
+               // options.MapHub<MessageHub>("/MessageHub");
                
             });
             app.UseAuthentication();

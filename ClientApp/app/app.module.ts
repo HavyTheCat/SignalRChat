@@ -31,6 +31,7 @@ import { HttpErrorInterceptor } from './interceptor';
 import { ChatRoomService } from './Shared/Services/chatroom-service';
 import { RoomInputComponent } from './chat/components/room-input/room-input.component';
 import { ProfileComponent } from './profile/profile.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 
 
@@ -49,7 +50,8 @@ import { ProfileComponent } from './profile/profile.component';
     ChatMessageComponent,
     ChatroomWindowComponent,
     RoomInputComponent,
-    ProfileComponent
+    ProfileComponent,
+    EditProfileComponent
   ],
   imports: [
     FormsModule,

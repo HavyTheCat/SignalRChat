@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
 import {map} from 'rxjs/operators';
 
 import { User } from '../../../classes/User';
@@ -21,6 +21,7 @@ export class AuthService {
 
   private isLoginSubject = new BehaviorSubject<boolean>(this.isAuth());
   private currentUserSubject = new BehaviorSubject<User | null>(null);
+
 
   constructor(
     private httpClient: HttpClient,
@@ -105,10 +106,8 @@ public getUser(id: string): Observable<User> {
   return this.httpClient.get<User>(`/api/account/user/${id}`);
 }
 
-
-
 public logout(): void {
-    this.httpClient.get(`/api/account/logout`).subscribe();
+    this.httpClient.get(`/api/account/logout`);
 
     this.router.navigate(['/login']);
     this.alertService.alerts.next(new Alert('Signed out'));

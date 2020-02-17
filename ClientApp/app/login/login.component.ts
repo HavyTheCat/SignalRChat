@@ -31,6 +31,13 @@ public loginForm: FormGroup;
 
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/chat';
+    this.subscriptions.push(
+      this.auth.getCurrentUser().subscribe(user => {
+        if (!!user) {
+          this.router.navigateByUrl('/chat');
+        }
+      })
+    );
   }
 
   private CreateForm(): void {

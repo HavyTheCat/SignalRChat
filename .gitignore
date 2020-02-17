@@ -15,3 +15,5 @@
 /Migrations/20200213170847_migra3.Designer.cs
 /Migrations/20200213170847_migra3.cs
 /Migrations/SignalRChatContextModelSnapshot.cs
+/Hubs/MessageHub.cs
+/Migrations

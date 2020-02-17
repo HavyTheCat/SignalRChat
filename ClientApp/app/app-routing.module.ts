@@ -5,6 +5,7 @@ import { SignupComponent } from './signup/signup.component';
 import { ChatComponent } from './chat/chat.component';
 import { AuthGuard } from './guards/auth.guard';
 import { ProfileComponent } from './profile/profile.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: '/login'},
@@ -16,6 +17,7 @@ const routes: Routes = [
       {path: ':chatroomId', component: ChatComponent }
     ]},
   { path: 'profile/:userId', component: ProfileComponent, canActivate: [AuthGuard]},
+  { path: 'profile/:userId/edit', component: EditProfileComponent, canActivate: [AuthGuard]},
   {path: '**', redirectTo: '/login'}
 ];
 
