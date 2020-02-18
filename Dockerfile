@@ -5,9 +5,8 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-WORKDIR /src/
-COPY ["package.json", ""]
-COPY ["SignalRChat.csproj", ""]
+COPY package*.json .
+COPY *.csproj ./
 RUN apt-get update -yq \
     && apt-get install curl gnupg -yq \
     && curl -sL https://deb.nodesource.com/setup_10.x | bash \
