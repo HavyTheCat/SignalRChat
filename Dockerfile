@@ -6,7 +6,7 @@ EXPOSE 80
 EXPOSE 443
 
 RUN apt-get install --yes curl
-RUN sudo apt-get install -y nodejs
+RUN apt-get install -y nodejs
 
 COPY ["package.json", ""]
 COPY ["package-lock.json", ""]
