@@ -7,18 +7,18 @@ EXPOSE 443
 
 COPY package*.json .
 COPY *.csproj ./
+
+
+
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 RUN dotnet restore
+COPY . .
 RUN apt-get update -yq \
     && apt-get install curl gnupg -yq \
     && curl -sL https://deb.nodesource.com/setup_10.x | bash \
     && apt-get install nodejs -yq
 RUN npm install
 RUN npm install -g @angular/cli@7.3.9
-
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
-
-COPY . .
-RUN 
 RUN npm run-script build
 RUN dotnet build "SignalRChat.csproj" -c Release -o /app/build
 
