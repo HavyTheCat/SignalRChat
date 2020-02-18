@@ -5,7 +5,6 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["package.json", ""]
 COPY ["SignalRChat.csproj", ""]
 RUN dotnet restore "./SignalRChat.csproj"
 COPY . .
@@ -17,6 +16,7 @@ RUN dotnet publish "SignalRChat.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /src
+COPY package*.json
 RUN apt-get update -yq \
     && apt-get install curl gnupg -yq \
     && curl -sL https://deb.nodesource.com/setup_10.x | bash \
