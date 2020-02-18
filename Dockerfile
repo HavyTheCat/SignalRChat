@@ -14,7 +14,7 @@ COPY ["package.json", ""]
 WORKDIR /src/
 RUN npm install
 RUN npm install -g @angular/cli@7.3.9
-RUN ng build
+RUN npm run-script build
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
