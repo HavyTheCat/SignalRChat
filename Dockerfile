@@ -5,6 +5,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
+COPY ["package.json", ""]
 COPY ["SignalRChat.csproj", ""]
 RUN dotnet restore "./SignalRChat.csproj"
 COPY . .
