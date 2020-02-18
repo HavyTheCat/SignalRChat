@@ -5,15 +5,13 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+WORKDIR /src/
 COPY ["package.json", ""]
 COPY ["SignalRChat.csproj", ""]
 RUN apt-get update -yq \
     && apt-get install curl gnupg -yq \
     && curl -sL https://deb.nodesource.com/setup_10.x | bash \
     && apt-get install nodejs -yq
-
-
-WORKDIR /src/
 RUN npm install
 RUN npm install -g @angular/cli@7.3.9
 RUN npm run-script build
