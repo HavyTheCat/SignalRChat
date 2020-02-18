@@ -17,4 +17,4 @@ RUN dotnet publish "SignalRChat.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "SignalRChat.dll", "--server.urls", "http://0.0.0.0:5000"]
+CMD ["dotnet", "SignalRChat.dll"]
