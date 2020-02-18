@@ -12,8 +12,6 @@ RUN apt-get update -yq \
     && apt-get install curl gnupg -yq \
     && curl -sL https://deb.nodesource.com/setup_10.x | bash \
     && apt-get install nodejs -yq
-RUN npm install
-RUN npm run-script build
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
@@ -21,7 +19,8 @@ WORKDIR /src
 RUN dotnet restore "./SignalRChat.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN 
+RUN RUN npm install
+RUN npm run-script build
 RUN dotnet build "SignalRChat.csproj" -c Release -o /app/build
 
 FROM build AS publish
