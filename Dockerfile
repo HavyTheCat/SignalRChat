@@ -13,7 +13,6 @@ RUN apt-get update -yq \
     && curl -sL https://deb.nodesource.com/setup_10.x | bash \
     && apt-get install nodejs -yq
 RUN npm install
-RUN npm install -g @angular/cli@7.3.9
 RUN npm run-script build
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
