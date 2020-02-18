@@ -63,7 +63,7 @@ export class ChatRoomService {
 
 private createConnection() {
     this._hubConnection = new HubConnectionBuilder()
-      .withUrl('https://localhost:44360/RoomHub', {
+      .withUrl('/RoomHub', {
         accessTokenFactory: () => this.auth.getToken()// Return access token
     })
       .build();

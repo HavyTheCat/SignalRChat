@@ -377,7 +377,7 @@ var ChatRoomService = /** @class */ (function () {
     ChatRoomService.prototype.createConnection = function () {
         var _this = this;
         this._hubConnection = new _aspnet_signalr__WEBPACK_IMPORTED_MODULE_3__["HubConnectionBuilder"]()
-            .withUrl('https://localhost:44360/RoomHub', {
+            .withUrl('/RoomHub', {
             accessTokenFactory: function () { return _this.auth.getToken(); } // Return access token
         })
             .build();
@@ -2326,7 +2326,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"new-message-wraper d-flex\">\n  <div class=\"input-group\">\n    <input [(ngModel)]=\"newMessagetext\" type=\"text\" class=\"form-control\" placeholder=\"Enter a new Meme\" (keyup.enter)=\"submit(newMessage.value)\" #newMessage>\n    <div class=\"input-group-append\">\n      <button class=\"btn btn-primary\" type=\"button\" (click)=\"submit(newMessage.value)\" >Enter</button>\n    </div>\n  </div>\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"new-message-wraper d-flex\">\r\n  <div class=\"input-group\">\r\n    <input [(ngModel)]=\"newMessagetext\" type=\"text\" class=\"form-control\" placeholder=\"Enter a new Meme\" (keyup.enter)=\"submit(newMessage.value)\" #newMessage>\r\n    <div class=\"input-group-append\">\r\n      <button class=\"btn btn-primary\" type=\"button\" (click)=\"submit(newMessage.value)\" >Enter</button>\r\n    </div>\r\n  </div>\r\n</div>\r\n");
 
 /***/ }),
 
