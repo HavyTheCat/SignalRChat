@@ -14,6 +14,10 @@ RUN apt-get update -yq \
     && curl -sL https://deb.nodesource.com/setup_10.x | bash \
     && apt-get install nodejs -yq
 RUN npm install
+RUN npm run-script ng update @angular/cli @angular/core
+RUN npm uninstall @angular-devkit/build-angular
+RUN npm install @angular-devkit/build-angular
+RUN npm run-script ng update --all
 RUN npm run-script build
 RUN dotnet build "SignalRChat.csproj" -c Release -o /app/build
 
