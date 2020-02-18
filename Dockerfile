@@ -6,8 +6,7 @@ EXPOSE 80
 EXPOSE 443
 
 RUN apt-get install --yes curl
-RUN curl --silent --location https://deb.nodesource.com/setup_10.x | bash -
-RUN apt-get install --yes nodejs
+RUN sudo apt-get install -y nodejs
 
 COPY ["package.json", ""]
 COPY ["package-lock.json", ""]
