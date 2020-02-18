@@ -19,11 +19,16 @@ namespace SignalRChat
 
 
 
-        public static IWebHost BuildWebHost(string[] args) =>
-          WebHost.CreateDefaultBuilder(args)
-              .ConfigureAppConfiguration(SetupConfiguration)
-              .UseStartup<Startup>()
-              .Build();
+        public static IWebHost BuildWebHost(string[] args)
+        {
+            var port = Environment.GetEnvironmentVariable("PORT");
+
+            return WebHost.CreateDefaultBuilder(args)
+                            .ConfigureAppConfiguration(SetupConfiguration)
+                            .UseStartup<Startup>()
+                            .UseUrls("http://*:" + port)
+                            .Build();
+        }
 
         private static void SetupConfiguration(WebHostBuilderContext ctx, IConfigurationBuilder builder)
         {

@@ -6,7 +6,7 @@ import { User } from '../../../../classes/User';
 
 @Component({
   selector: 'app-chat-input',
-  templateUrl: './chat-Input.component.html',
+ templateUrl: './chat-Input.component.html',
   styleUrls: ['./chat-Input.component.scss']
 })
 export class ChatInputComponent implements OnInit {
