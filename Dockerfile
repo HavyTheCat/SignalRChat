@@ -5,12 +5,14 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+COPY ["package.json", ""]
+COPY ["SignalRChat.csproj", ""]
 RUN apt-get update -yq \
     && apt-get install curl gnupg -yq \
     && curl -sL https://deb.nodesource.com/setup_10.x | bash \
     && apt-get install nodejs -yq
 
-COPY ["package.json", ""]
+
 WORKDIR /src/
 RUN npm install
 RUN npm install -g @angular/cli@7.3.9
@@ -18,7 +20,7 @@ RUN npm run-script build
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["SignalRChat.csproj", ""]
+
 RUN dotnet restore "./SignalRChat.csproj"
 COPY . .
 WORKDIR "/src/."
