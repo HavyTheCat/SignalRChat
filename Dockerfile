@@ -9,8 +9,6 @@ RUN dotnet restore "AngularWebApp/SignalRChat.csproj"
 COPY . .
 WORKDIR "/src/AngularWebApp"
 
-FROM ${NODE_IMAGE} as node-build
-WORKDIR /AngularWebApp
 COPY AngularWebApp/ClientApp .
 RUN apt-get update -yq \
     && apt-get install curl gnupg -yq \
