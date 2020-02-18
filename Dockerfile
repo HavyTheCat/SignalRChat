@@ -11,7 +11,6 @@ RUN apt-get update -yq \
     && apt-get install nodejs -yq
 
 COPY ["package.json", ""]
-COPY ["package-lock.json", ""]
 WORKDIR /src/
 RUN npm install
 RUN npm install -g @angular/cli@7.3.9
