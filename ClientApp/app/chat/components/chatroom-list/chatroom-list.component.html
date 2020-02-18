@@ -1,5 +1,5 @@
 <div class="h-100 d-flex flex-column">
-  <div class="chatroom-list">
+  <div class="h-100 chatroom-list">
   <ng-container *ngFor="let chatRoom of rooms">
     <div class="chatroom-list-item">
       <a [routerLink]="['/chat', chatRoom.id]">{{ chatRoom.name }}</a>

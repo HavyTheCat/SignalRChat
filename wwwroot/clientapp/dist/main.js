@@ -1614,14 +1614,12 @@ var IsOwnerGuard = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpErrorInterceptor", function() { return HttpErrorInterceptor; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-/* harmony import */ var _Shared_Services_alert_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Shared/Services/alert.service */ "./ClientApp/app/Shared/Services/alert.service.ts");
-/* harmony import */ var _classes_alert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../classes/alert */ "./ClientApp/classes/alert.ts");
-/* harmony import */ var _enums_alert_type_enum__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../enums/alert-type.enum */ "./ClientApp/enums/alert-type.enum.ts");
-/* harmony import */ var _Shared_Services_auth_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Shared/Services/auth.service */ "./ClientApp/app/Shared/Services/auth.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm5/core.js");
-
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var _Shared_Services_alert_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Shared/Services/alert.service */ "./ClientApp/app/Shared/Services/alert.service.ts");
+/* harmony import */ var _classes_alert__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../classes/alert */ "./ClientApp/classes/alert.ts");
+/* harmony import */ var _enums_alert_type_enum__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../enums/alert-type.enum */ "./ClientApp/enums/alert-type.enum.ts");
+/* harmony import */ var _Shared_Services_auth_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Shared/Services/auth.service */ "./ClientApp/app/Shared/Services/auth.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm5/core.js");
 
 
 
@@ -1641,7 +1639,7 @@ var HttpErrorInterceptor = /** @class */ (function () {
                 Authorization: "Bearer " + this.auth.getToken()
             }
         });
-        return next.handle(request).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["retry"])(1), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(function (err) {
+        return next.handle(request).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["retry"])(1), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (err) {
             var errMessage = '';
             if (err.error instanceof ErrorEvent) {
                 errMessage = "Error: " + err.error.message;
@@ -1649,18 +1647,18 @@ var HttpErrorInterceptor = /** @class */ (function () {
             else {
                 errMessage = "Error Code: " + err.status + "\nMessage: " + err.message;
             }
-            _this.alertServ.alerts.next(new _classes_alert__WEBPACK_IMPORTED_MODULE_4__["Alert"](errMessage, _enums_alert_type_enum__WEBPACK_IMPORTED_MODULE_5__["AlertType"].Danger));
-            return rxjs__WEBPACK_IMPORTED_MODULE_1__["Observable"].throw(err.statusText);
+            _this.alertServ.alerts.next(new _classes_alert__WEBPACK_IMPORTED_MODULE_3__["Alert"](errMessage, _enums_alert_type_enum__WEBPACK_IMPORTED_MODULE_4__["AlertType"].Danger));
+            throw (err.statusText);
         }));
     };
     HttpErrorInterceptor.ctorParameters = function () { return [
-        { type: _Shared_Services_alert_service__WEBPACK_IMPORTED_MODULE_3__["AlertService"] },
-        { type: _Shared_Services_auth_service__WEBPACK_IMPORTED_MODULE_6__["AuthService"] }
+        { type: _Shared_Services_alert_service__WEBPACK_IMPORTED_MODULE_2__["AlertService"] },
+        { type: _Shared_Services_auth_service__WEBPACK_IMPORTED_MODULE_5__["AuthService"] }
     ]; };
     HttpErrorInterceptor = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_7__["Injectable"])(),
-        Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [_Shared_Services_alert_service__WEBPACK_IMPORTED_MODULE_3__["AlertService"],
-            _Shared_Services_auth_service__WEBPACK_IMPORTED_MODULE_6__["AuthService"]])
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_6__["Injectable"])(),
+        Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [_Shared_Services_alert_service__WEBPACK_IMPORTED_MODULE_2__["AlertService"],
+            _Shared_Services_auth_service__WEBPACK_IMPORTED_MODULE_5__["AuthService"]])
     ], HttpErrorInterceptor);
     return HttpErrorInterceptor;
 }());
@@ -2352,7 +2350,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"h-100 d-flex flex-column\">\n  <div class=\"chatroom-list\">\n  <ng-container *ngFor=\"let chatRoom of rooms\">\n    <div class=\"chatroom-list-item\">\n      <a [routerLink]=\"['/chat', chatRoom.id]\">{{ chatRoom.name }}</a>\n    </div>\n  </ng-container>\n</div>\n<app-room-input></app-room-input>\n</div>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"h-100 d-flex flex-column\">\n  <div class=\"h-100 chatroom-list\">\n  <ng-container *ngFor=\"let chatRoom of rooms\">\n    <div class=\"chatroom-list-item\">\n      <a [routerLink]=\"['/chat', chatRoom.id]\">{{ chatRoom.name }}</a>\n    </div>\n  </ng-container>\n</div>\n<app-room-input></app-room-input>\n</div>\n");
 
 /***/ }),
 

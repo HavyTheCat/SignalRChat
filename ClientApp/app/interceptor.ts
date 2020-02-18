@@ -26,7 +26,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             errMessage = `Error Code: ${err.status}\nMessage: ${err.message}`;
         }
         this.alertServ.alerts.next(new Alert(errMessage, AlertType.Danger));
-        return Observable.throw(err.statusText);
+        throw(err.statusText);
     }));
 }
 }
