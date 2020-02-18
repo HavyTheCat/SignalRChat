@@ -5,8 +5,10 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-RUN apt-get install --yes curl
-RUN apt-get install -y nodejs
+RUN apt-get update -yq \
+    && apt-get install curl gnupg -yq \
+    && curl -sL https://deb.nodesource.com/setup_10.x | bash \
+    && apt-get install nodejs -yq
 
 COPY ["package.json", ""]
 COPY ["package-lock.json", ""]
