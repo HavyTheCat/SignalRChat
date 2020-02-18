@@ -2,7 +2,6 @@
 /obj
 /bin
 /.vscode
-/wwwroot
 /appsettings.json
 /package-lock.json
 /.vs/SignalRChat/DesignTimeBuild/.dtbcache
