@@ -4,7 +4,7 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["SignalRChat.csproj", "AngularWebApp/"]
+COPY ["../", "AngularWebApp/"]
 RUN dotnet restore "AngularWebApp/SignalRChat.csproj"
 COPY . .
 WORKDIR "/src/AngularWebApp"
