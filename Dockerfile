@@ -20,6 +20,7 @@ RUN apt-get update -yq \
 RUN npm install
 RUN npm install -g @angular/cli@7.3.9
 RUN npm run-script build
+RUN echo "$PWD"
 RUN dotnet build "SignalRChat.csproj" -c Release -o /app/build
 
 FROM build AS publish
