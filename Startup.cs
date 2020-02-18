@@ -174,7 +174,7 @@ namespace SignalRChat
                 endpoints.MapHub<RoomsHub>("/RoomHub");
             });
 
-            if (false)
+            if (true)
             {
                 //Seed the database
                 using (var scope = app.ApplicationServices.CreateScope())
