@@ -15,6 +15,7 @@ RUN apt-get update -yq \
     && apt-get install nodejs -yq
 RUN npm install
 RUN npm install -g @angular/cli@7.3.9
+RUN npm install --save-dev @angular-devkit/build-angular
 RUN npm run-script build
 RUN dotnet build "SignalRChat.csproj" -c Release -o /app/build
 
