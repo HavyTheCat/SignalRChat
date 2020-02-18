@@ -18,9 +18,8 @@ RUN npm install -g @angular/cli@7.3.9
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 
-RUN dotnet restore "./SignalRChat.csproj"
+RUN dotnet restore "SignalRChat.csproj"
 COPY . .
-WORKDIR "/src/."
 RUN 
 RUN npm run-script build
 RUN dotnet build "SignalRChat.csproj" -c Release -o /app/build
