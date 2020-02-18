@@ -12,6 +12,12 @@ WORKDIR "/src/."
 RUN dotnet build "SignalRChat.csproj" -c Release -o /app/build
 
 FROM build AS publish
+RUN apt-get update -yq \
+    && apt-get install curl gnupg -yq \
+    && curl -sL https://deb.nodesource.com/setup_10.x | bash \
+    && apt-get install nodejs -yq
+RUN npm install
+RUN npm run-script build
 RUN dotnet publish "SignalRChat.csproj" -c Release -o /app/publish
 
 FROM base AS final
