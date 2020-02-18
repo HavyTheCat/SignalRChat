@@ -6,14 +6,7 @@ import { User } from '../../../../classes/User';
 
 @Component({
   selector: 'app-chat-input',
-  template: '<div class="new-message-wraper d-flex">
-  <div class="input-group">
-    <input [(ngModel)]="newMessagetext" type="text" class="form-control" placeholder="Enter a new Meme" (keyup.enter)="submit(newMessage.value)" #newMessage>
-    <div class="input-group-append">
-      <button class="btn btn-primary" type="button" (click)="submit(newMessage.value)" >Enter</button>
-    </div>
-  </div>
-</div>',
+ templateUrl: './chat-Input.component.html',
   styleUrls: ['./chat-Input.component.scss']
 })
 export class ChatInputComponent implements OnInit {
