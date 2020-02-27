@@ -53,8 +53,13 @@ namespace SignalRChat.Controllers.ApiControllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]LoginVM loginVM)
         {
-            var login_result = await _accountRepository.LocalLogin(loginVM.email, loginVM.password, true);
-            return Ok(login_result);
+            if (ModelState.IsValid)
+            {
+                var login_result = await _accountRepository.LocalLogin(loginVM.email, loginVM.password, true);
+                return Ok(login_result);
+            }
+            return BadRequest(ModelState);
+
         }
 
 
