@@ -46,6 +46,16 @@ namespace SignalRChat.Services.Repository
         {
             var user = await user_manager.FindByEmailAsync(email);
 
+            if(user == null)
+            {
+                return new UserStateResponse
+                {
+                    success = false,
+                    platform = "local",
+                    message = $"No user with mail:{email}"
+                };
+            }
+
             var result = await signin_manager.CheckPasswordSignInAsync(user, password, false);
             if (result.Succeeded)
             {
