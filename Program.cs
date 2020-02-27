@@ -26,6 +26,7 @@ namespace SignalRChat
             return WebHost.CreateDefaultBuilder(args)
                             .ConfigureAppConfiguration(SetupConfiguration)
                             .UseStartup<Startup>()
+                            .UseUrls("http://*:"+port)
                             .Build();
         }
 
